@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "affiliate-networks-mcp",
+  "name": "Affiliate Networks MCP",
+  "description": "Affiliate network reporting in your AI client. Bring your own keys. Most adapters experimental.",
+  "category": "mcp",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "npm"
+  ],
+  "downloads": 6,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "stdio",
+    "serverCommand": "npx -y affiliate-networks-mcp",
+    "configSchema": {}
+  },
+  "publisher": {
+    "slug": "bobberrisford",
+    "name": "bobberrisford",
+    "tier": "community",
+    "avatarUrl": "https://github.com/bobberrisford.png",
+    "bio": null
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "goji",
+  "name": "goji",
+  "description": "Answers on AEO, SEO, web and brand from GOJI's published material. Melbourne, Australia.",
+  "category": "mcp",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "streamable-http"
+  ],
+  "downloads": 0,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "http",
+    "url": "https://mcp.goji.agency/mcp",
+    "configSchema": {}
+  },
+  "publisher": {
+    "slug": "goji-agency",
+    "name": "goji-agency",
+    "tier": "community",
+    "avatarUrl": "https://github.com/goji-agency.png",
+    "bio": null
+  }
+}
