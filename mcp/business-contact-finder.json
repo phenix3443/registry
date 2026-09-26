@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "business-contact-finder",
+  "name": "Business Contact Finder",
+  "description": "Check how to contact a business website, and whether that contact path actually works.",
+  "category": "mcp",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "streamable-http"
+  ],
+  "downloads": 7284,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "http",
+    "url": "https://business-contact-finder-mcp.ottobot2025.workers.dev/mcp",
+    "configSchema": {}
+  },
+  "publisher": {
+    "slug": "modelcontextprotocol",
+    "name": "modelcontextprotocol",
+    "tier": "official",
+    "avatarUrl": "https://github.com/modelcontextprotocol.png",
+    "bio": null
+  }
+}

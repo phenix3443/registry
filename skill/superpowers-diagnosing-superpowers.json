@@ -1,0 +1,39 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "superpowers-diagnosing-superpowers",
+  "name": "diagnosing-superpowers",
+  "description": "Use when a superpowers session went wrong and your human partner wants to know why — repeated work, ignored plans, stumbles, poor results, a skill that didn't fire, \"it took too long\", \"why is it so expensive\", \"what is it doing\" — or wants to build a bug report for the superpowers maintainers, for ",
+  "category": "skill",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude"
+  ],
+  "tags": [
+    "skill"
+  ],
+  "downloads": 291793,
+  "installHook": {
+    "steps": [
+      {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/obra/superpowers/main/skills/diagnosing-superpowers/SKILL.md",
+        "dest": "skill.md"
+      }
+    ]
+  },
+  "metadata": {
+    "contentUrl": "https://raw.githubusercontent.com/obra/superpowers/main/skills/diagnosing-superpowers/SKILL.md",
+    "source": {
+      "repo": "obra/superpowers",
+      "ref": "main",
+      "path": "skills/diagnosing-superpowers/SKILL.md"
+    }
+  },
+  "publisher": {
+    "slug": "obra",
+    "name": "obra",
+    "tier": "community",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/45416?v=4",
+    "bio": null
+  }
+}
