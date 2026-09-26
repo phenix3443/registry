@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "ads",
+  "name": "Adako: ad ops for AI assistants",
+  "description": "Google, Meta, ChatGPT, TikTok and LinkedIn Ads for AI assistants. Every change needs your approval.",
+  "category": "mcp",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "streamable-http"
+  ],
+  "downloads": 1,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "http",
+    "url": "https://adako.ai/mcp",
+    "configSchema": {}
+  },
+  "publisher": {
+    "slug": "ruslan2027",
+    "name": "ruslan2027",
+    "tier": "community",
+    "avatarUrl": "https://github.com/ruslan2027.png",
+    "bio": null
+  }
+}
