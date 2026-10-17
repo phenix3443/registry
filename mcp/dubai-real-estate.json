@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "dubai-real-estate",
+  "name": "Dubai Data — Dubai real estate statistics",
+  "description": "Dubai property prices, AED/sqft, sales, rents, yields and projects from DLD registered transactions.",
+  "category": "mcp",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "streamable-http"
+  ],
+  "downloads": 0,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "http",
+    "url": "https://mcp.datadubai.ae/mcp",
+    "configSchema": {}
+  },
+  "publisher": {
+    "slug": "datadubai",
+    "name": "datadubai",
+    "tier": "community",
+    "avatarUrl": "https://github.com/datadubai.png",
+    "bio": null
+  }
+}
