@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "apex-ai-academy",
+  "name": "Apex AI Academy",
+  "description": "Co-Learn with your Agent: fact-checked AI lessons with Human and Agent views.",
+  "category": "mcp",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "streamable-http"
+  ],
+  "downloads": 0,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "http",
+    "url": "https://apexai.academy/mcp",
+    "configSchema": {}
+  },
+  "publisher": {
+    "slug": "apexai-academy",
+    "name": "ApexAI-Academy",
+    "tier": "community",
+    "avatarUrl": "https://github.com/ApexAI-Academy.png",
+    "bio": null
+  }
+}
