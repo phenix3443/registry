@@ -55,10 +55,17 @@ const existingRows = (await (await fetch(`${rest}/items?select=slug`, { headers:
 const existingSlugs = new Set(existingRows.map((r) => r.slug))
 
 const eligible = items.filter((i) => pubId.has(i.publisher?.slug))
+// metadata.source in the DB is the provenance tag ('registry' | 'crawler'); a
+// skill's source object from the manifest is kept under skillSource instead.
+const syncedMetadata = (m: Record<string, any> = {}) => ({
+  ...m,
+  ...(m.source && typeof m.source === 'object' ? { skillSource: m.source } : {}),
+  source: 'registry',
+})
 const baseRow = (i: Manifest) => ({
   slug: i.slug, name: i.name, description: i.description, category: i.category, version: i.version,
   publisher_id: pubId.get(i.publisher.slug), compatible_with: i.compatibleWith, tags: i.tags ?? [],
-  status: 'published', install_hook: i.installHook, metadata: { ...(i.metadata ?? {}), source: 'registry' },
+  status: 'published', install_hook: i.installHook, metadata: syncedMetadata(i.metadata),
 })
 const batches: [string, Record<string, unknown>[]][] = [
   ['new', eligible.filter((i) => !existingSlugs.has(i.slug)).map((i) => ({ ...baseRow(i), downloads: i.downloads ?? 0 }))],

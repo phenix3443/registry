@@ -6,7 +6,8 @@
   "category": "skill",
   "version": "1.0.0",
   "compatibleWith": [
-    "claude"
+    "claude",
+    "codex"
   ],
   "tags": [
     "skill"
@@ -26,7 +27,7 @@
     "source": {
       "repo": "multica-ai/andrej-karpathy-skills",
       "ref": "main",
-      "path": "skills/karpathy-guidelines/SKILL.md"
+      "path": "skills/karpathy-guidelines"
     }
   },
   "publisher": {
