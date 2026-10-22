@@ -6,7 +6,8 @@
   "category": "skill",
   "version": "1.0.0",
   "compatibleWith": [
-    "claude"
+    "claude",
+    "codex"
   ],
   "tags": [
     "skill"
@@ -26,7 +27,7 @@
     "source": {
       "repo": "obra/superpowers",
       "ref": "main",
-      "path": "skills/dispatching-parallel-agents/SKILL.md"
+      "path": "skills/dispatching-parallel-agents"
     }
   },
   "publisher": {
