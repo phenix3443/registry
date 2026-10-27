@@ -52,7 +52,11 @@ Report a broken package or request a new one via an **issue**.
   (e.g. `npx -y <package>`). No file download needed; the command runs at enable.
 - **MCP (remote)** — set `metadata.transport: "http"` (or `"sse"`) and `metadata.url`.
 - **Skill** — add a `file` step fetching the raw `SKILL.md` to `skill.md`, e.g.
-  `{ "type": "file", "url": "https://raw.githubusercontent.com/.../SKILL.md", "dest": "skill.md" }`.
+  `{ "type": "file", "url": "https://raw.githubusercontent.com/.../SKILL.md", "dest": "skill.md" }`,
+  and `metadata.source: { "repo": "owner/name", "ref": "main", "path": "skills/<dir>" }`
+  pointing at the skill's **directory**, so clients can install its other files too.
+  Add `"codex"` to `compatibleWith` only when the SKILL.md frontmatter has both
+  `name` and `description` (Codex skips skills without them; CI checks this).
 - **Provider** — add a `config` step pre-filling the connection, e.g.
   `{ "type": "config", "patch": { "apiKey": "", "baseUrl": "https://...", "authType": "bearer" } }`.
   The user only supplies their API key.

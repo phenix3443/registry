@@ -6,7 +6,8 @@
   "category": "skill",
   "version": "1.0.0",
   "compatibleWith": [
-    "claude"
+    "claude",
+    "codex"
   ],
   "tags": [
     "skill"
@@ -26,7 +27,7 @@
     "source": {
       "repo": "affaan-m/ECC",
       "ref": "main",
-      "path": ".agents/skills/agent-introspection-debugging/SKILL.md"
+      "path": ".agents/skills/agent-introspection-debugging"
     }
   },
   "publisher": {

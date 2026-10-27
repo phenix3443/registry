@@ -458,11 +458,14 @@ async function crawlSkills(publishers: Map<string, CrawledPublisher>, taken: Set
     }
     let name = c.dir
     let description = `来自 ${c.owner}/${c.repo} 的 skill。`
+    // Codex only loads a SKILL.md whose frontmatter has both name and description.
+    let codexReady = false
     try {
       const md = await (await fetch(c.rawUrl, { headers: { 'user-agent': 'agent-store-crawler' } })).text()
       const fm = parseSkillFrontmatter(md)
       if (fm.name) name = fm.name
       if (fm.description) description = fm.description.slice(0, 300)
+      codexReady = !!fm.name && !!fm.description
     } catch { /* keep dir-derived defaults */ }
     const slug = uniqueSlug(sanitizeSlug(c.dir === c.repo ? c.repo : `${c.repo}-${c.dir}`), taken)
     rows.push({
@@ -472,11 +475,12 @@ async function crawlSkills(publishers: Map<string, CrawledPublisher>, taken: Set
       category: 'skill',
       version: '1.0.0',
       publisherSlug: pubSlug,
-      compatibleWith: ['claude'],
+      compatibleWith: codexReady ? ['claude', 'codex'] : ['claude'],
       tags: ['skill'],
       downloads: c.stars,
       installHook: { steps: [{ type: 'file', url: c.rawUrl, dest: 'skill.md' }] },
-      metadata: { contentUrl: c.rawUrl, source: { repo: `${c.owner}/${c.repo}`, ref: c.branch, path: c.path } },
+      // source.path is the skill's directory, so a client can install the whole folder.
+      metadata: { contentUrl: c.rawUrl, source: { repo: `${c.owner}/${c.repo}`, ref: c.branch, path: c.path === 'SKILL.md' ? '' : c.path.slice(0, -'/SKILL.md'.length) } },
     })
   }
   return rows

@@ -54,12 +54,37 @@ async function validateFile(category: string, filename: string): Promise<void> {
     if (!steps.some((s: any) => s.type === 'file') && !m.metadata?.contentUrl) {
       err(rel, 'skill needs a file install step (or metadata.contentUrl) so it can be fetched')
     }
+    const src = m.metadata?.source
+    if (src !== undefined) {
+      if (typeof src?.repo !== 'string' || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(src.repo)) err(rel, 'metadata.source.repo must be owner/name')
+      if (typeof src?.ref !== 'string' || !src.ref) err(rel, 'metadata.source.ref must be a non-empty string')
+      if (typeof src?.path !== 'string') err(rel, 'metadata.source.path must be a string')
+      else if (src.path.startsWith('/') || src.path.includes('\\') || src.path.split('/').includes('..')) {
+        err(rel, 'metadata.source.path must be a relative path inside the repo')
+      } else if (src.path === 'SKILL.md' || src.path.endsWith('/SKILL.md')) {
+        warn(rel, 'metadata.source.path should be the skill directory, not its SKILL.md')
+      }
+    }
   } else if (category === 'mcp') {
     const t = m.metadata?.transport
     if (t === 'stdio' && !m.metadata?.serverCommand) err(rel, 'stdio MCP needs metadata.serverCommand')
     if ((t === 'http' || t === 'sse') && !m.metadata?.url) err(rel, 'remote MCP needs metadata.url')
   } else if (category === 'provider') {
     if (!steps.some((s: any) => s.type === 'config')) warn(rel, 'provider usually has a config step to pre-fill the connection')
+  }
+
+  // Codex loads a skill only when SKILL.md frontmatter has name and description.
+  if (category === 'skill' && m.compatibleWith?.includes('codex') && process.env.CHECK_URLS !== '0') {
+    const url = m.metadata?.contentUrl ?? steps.find((s: any) => s.type === 'file')?.url
+    try {
+      const md = await (await fetch(url)).text()
+      const fm = md.match(/^---\s*\n([\s\S]*?)\n---/)?.[1] ?? ''
+      if (!/^name:\s*\S/m.test(fm) || !/^description:\s*\S/m.test(fm)) {
+        err(rel, 'compatibleWith has codex but SKILL.md frontmatter lacks name or description')
+      }
+    } catch (e) {
+      err(rel, `SKILL.md ${url} unreachable: ${(e as Error).message}`)
+    }
   }
 
   // Best-effort reachability of file-step URLs (skippable with CHECK_URLS=0).
