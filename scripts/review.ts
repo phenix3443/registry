@@ -1,14 +1,14 @@
 // Review changed package manifests for quality + safety with an LLM, write the
 // verdict into the store item's metadata.review, and quarantine high-risk ones.
-// Runs after sync (same-repo push → ANTHROPIC_API_KEY + Supabase secrets exist).
+// Runs after sync (same-repo push → review model key + DATABASE_URL exist).
 import { readFileSync, existsSync, appendFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
+import { SQL } from 'bun'
 
 const OPENAI_KEY = process.env.OPENAI_API_KEY
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY
-const SUPABASE_URL = process.env.SUPABASE_URL
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+const DATABASE_URL = process.env.DATABASE_URL
 
 if (!OPENAI_KEY && !ANTHROPIC_KEY) {
   console.log('No review model key (OPENAI_API_KEY / ANTHROPIC_API_KEY) — skipping package review.')
@@ -111,16 +111,17 @@ ${JSON.stringify(m, null, 2)}${context}`
   return { slug: m.slug, category: m.category, verdict }
 }
 
+const sql = DATABASE_URL ? new SQL(DATABASE_URL) : null
+
 async function patchItem(slug: string, verdict: Verdict): Promise<void> {
-  if (!SUPABASE_URL || !SERVICE_KEY) return
-  const rest = `${SUPABASE_URL.replace(/\/$/, '')}/rest/v1`
-  const auth = { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, 'Content-Type': 'application/json' }
-  const cur = (await (await fetch(`${rest}/items?slug=eq.${slug}&select=metadata`, { headers: auth })).json()) as { metadata?: Record<string, unknown> }[]
-  const metadata = { ...(cur[0]?.metadata ?? {}), review: verdict }
-  const patch: Record<string, unknown> = { metadata }
+  if (!sql) return
   // Quarantine anything the reviewer flags as dangerous.
-  if (verdict.risk === 'high' || verdict.tier === 'reject') patch.status = 'rejected'
-  await fetch(`${rest}/items?slug=eq.${slug}`, { method: 'PATCH', headers: { ...auth, Prefer: 'return=minimal' }, body: JSON.stringify(patch) })
+  const quarantine = verdict.risk === 'high' || verdict.tier === 'reject'
+  await sql`
+    UPDATE items SET
+      metadata = metadata || jsonb_build_object('review', ${JSON.stringify(verdict)}::text::jsonb),
+      status = CASE WHEN ${quarantine} THEN 'rejected' ELSE status END
+    WHERE slug = ${slug}`
 }
 
 const files = changedManifests()
@@ -138,6 +139,7 @@ for (const f of files) {
   }
 }
 for (const r of results) await patchItem(r.slug, r.verdict)
+await sql?.close()
 
 const emoji = (risk: string) => (risk === 'high' ? '🔴' : risk === 'medium' ? '🟡' : risk === 'low' ? '🟢' : '⚪')
 const md =
