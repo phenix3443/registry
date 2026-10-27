@@ -11,6 +11,9 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    # The DB and review-model secrets live in this environment, which only main can
+    # deploy to, so a workflow run from any other branch gets no secrets.
+    environment: store-sync
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,14 +24,12 @@ jobs:
       - name: Sync manifests
         run: bun scripts/sync.ts
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Review changed packages
         run: bun scripts/review.ts
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           # Review model: set OPENAI_API_KEY (OpenAI or any relay via OPENAI_BASE_URL)
           # or ANTHROPIC_API_KEY. Without either, the review step is skipped.
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
