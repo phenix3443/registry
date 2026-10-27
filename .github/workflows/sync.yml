@@ -11,6 +11,9 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    # The DB and review-model secrets live in this environment, which only main can
+    # deploy to, so a workflow run from any other branch gets no secrets.
+    environment: store-sync
     steps:
       - uses: actions/checkout@v4
         with:
