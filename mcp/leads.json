@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "leads",
+  "name": "Getlead",
+  "description": "Find B2B leads with verified work emails, find and verify emails, and run cold email outreach.",
+  "category": "mcp",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "streamable-http"
+  ],
+  "downloads": 0,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "http",
+    "url": "https://mcp.getle.ad/mcp",
+    "configSchema": {}
+  },
+  "publisher": {
+    "slug": "adgrowofficial",
+    "name": "Adgrowofficial",
+    "tier": "community",
+    "avatarUrl": "https://github.com/Adgrowofficial.png",
+    "bio": null
+  }
+}
