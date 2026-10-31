@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "achromat-ai-mcp-server",
+  "name": "Achromat MOM",
+  "description": "Recall and calibrate policy-compliant tool-call arguments before execution. Does not run the tool.",
+  "category": "mcp",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "npm"
+  ],
+  "downloads": 1,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "stdio",
+    "serverCommand": "npx -y @achromat-ai/mcp-server",
+    "configSchema": {}
+  },
+  "publisher": {
+    "slug": "achromat-ai",
+    "name": "achromat-ai",
+    "tier": "community",
+    "avatarUrl": "https://github.com/achromat-ai.png",
+    "bio": null
+  }
+}

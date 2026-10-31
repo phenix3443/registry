@@ -1,0 +1,40 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "skills-academy-guide",
+  "name": "academy-guide",
+  "description": ">",
+  "category": "skill",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "skill"
+  ],
+  "downloads": 185414,
+  "installHook": {
+    "steps": [
+      {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/anthropics/skills/main/skills/academy-guide/SKILL.md",
+        "dest": "skill.md"
+      }
+    ]
+  },
+  "metadata": {
+    "contentUrl": "https://raw.githubusercontent.com/anthropics/skills/main/skills/academy-guide/SKILL.md",
+    "source": {
+      "repo": "anthropics/skills",
+      "ref": "main",
+      "path": "skills/academy-guide"
+    }
+  },
+  "publisher": {
+    "slug": "anthropics",
+    "name": "anthropics",
+    "tier": "official",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/76263028?v=4",
+    "bio": null
+  }
+}
