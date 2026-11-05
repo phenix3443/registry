@@ -2,14 +2,13 @@ name: Propose new packages
 
 # The crawler discovers popular providers / skills / MCP servers and opens a PR
 # adding any that aren't in the registry yet. The PR goes through the same review
-# as a human contribution. Runs daily, or on demand.
+# as a human contribution. Runs only when a maintainer dispatches it; scheduled
+# proposals are paused (see docs/plans/pause-crawler-proposals.md).
 #
 # Uses the built-in GITHUB_TOKEN (no PAT). This requires the org setting
 # Settings → Actions → General → Workflow permissions → "Read and write" +
 # "Allow GitHub Actions to create and approve pull requests".
 on:
-  schedule:
-    - cron: '0 4 * * *' # daily at 04:00 UTC
   workflow_dispatch:
 
 permissions:
