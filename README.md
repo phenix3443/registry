@@ -68,5 +68,6 @@ bun scripts/validate.ts          # structure + URL reachability
 CHECK_URLS=0 bun scripts/validate.ts   # structure only (offline)
 ```
 
-Popular packages are also proposed automatically by a crawler that opens PRs here
-— those go through the same review as any other contribution.
+Popular packages can also be proposed by a crawler, which runs only when a maintainer
+dispatches it and opens a PR here. Those PRs go through the same review as any other
+contribution.
