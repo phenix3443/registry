@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "apogee",
+  "name": "Apogee: Bulk Ad Launcher for Meta, TikTok & Snapchat",
+  "description": "Bulk-launch and manage ads across many Meta, TikTok and Snapchat ad accounts for agencies.",
+  "category": "mcp",
+  "version": "1.0.0",
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "streamable-http"
+  ],
+  "downloads": 0,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "http",
+    "url": "https://app.apogee.ad/mcp",
+    "configSchema": {}
+  },
+  "publisher": {
+    "slug": "apogeegit",
+    "name": "ApogeeGIT",
+    "tier": "community",
+    "avatarUrl": "https://github.com/ApogeeGIT.png",
+    "bio": null
+  }
+}
