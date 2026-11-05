@@ -58,7 +58,8 @@ gh api "repos/$R/contents/.github/workflows/crawl-pr.yml?ref=main" \
 | Workflow is not disabled | `gh api repos/$R/actions/workflows/crawl-pr.yml --jq .state` | `active` |
 | PR #1 closed without merge | `gh pr view 1 --repo $R --json state,mergedAt,mergeCommit` | `CLOSED`, both others `null` |
 | Merge contains only the planned files | `gh api repos/$R/commits/<merge-sha> --jq '.files[].filename'` | the two files above, no `mcp/`, `skill/` or `provider/` path |
-| Nothing ran on the merge commit | `gh run list --repo $R --commit <merge-sha>` | empty, so no sync and no crawl |
+| No sync or validation ran on the merge | `gh run list --repo $R --commit <merge-sha> --event push` | empty |
+| No crawl since the merge | `gh run list --repo $R --workflow crawl-pr.yml --limit 1 --json createdAt,event` | `createdAt` is earlier than the merge's `mergedAt` |
 | Merged content is the reviewed content | `gh pr view <n> --repo $R --json headRefOid` | equals the reviewed SHA |
 
 On the pre-change `main`, the first check exits 1 and the second exits 0, so the checks do distinguish the two states.
