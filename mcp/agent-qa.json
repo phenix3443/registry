@@ -1,0 +1,33 @@
+{
+  "$schema": "../schema/package.schema.json",
+  "slug": "agent-qa",
+  "name": "Agent QA",
+  "description": "Source-available QA MCP server for natural-language web and mobile regression tests with run memory.",
+  "category": "mcp",
+  "version": "0.1.21",
+  "publisher": {
+    "slug": "vostride",
+    "name": "Vostride",
+    "tier": "community"
+  },
+  "compatibleWith": [
+    "claude",
+    "codex"
+  ],
+  "tags": [
+    "mcp",
+    "npm",
+    "testing",
+    "browser-automation",
+    "mobile-testing"
+  ],
+  "downloads": 0,
+  "installHook": {
+    "steps": []
+  },
+  "metadata": {
+    "transport": "stdio",
+    "serverCommand": "npx -y agent-qa mcp",
+    "configSchema": {}
+  }
+}
