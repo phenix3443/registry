@@ -1,8 +1,10 @@
-// Sync all merged manifests into the store DB as published items. Runs in CI on
-// push to main (i.e. after a PR merges). Requires DATABASE_URL (the store's Postgres).
+// Sync all merged manifests into the store DB as published items, and topic/ into
+// the topics table. Runs in CI on push to main (i.e. after a PR merges). Requires
+// DATABASE_URL (the store's Postgres).
 import { readdirSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { SQL } from 'bun'
+import { readTopicFiles, type Topic } from './topics'
 
 const ROOT = join(import.meta.dir, '..')
 const databaseUrl = process.env.DATABASE_URL
@@ -23,13 +25,18 @@ for (const cat of ['mcp', 'skill', 'provider']) {
   }
 }
 
+// validate.ts has already checked these on the PR that merged them.
+const topics = readTopicFiles(ROOT).map((f) => f.data as Topic)
+
 // Dedupe publishers embedded in the manifests.
 const pubMap = new Map<string, Manifest>()
 for (const it of items) if (it.publisher?.slug) pubMap.set(it.publisher.slug, it.publisher)
 
 const json = (v: unknown) => JSON.stringify(v)
-// text[] from a JSON array, so Postgres does the array conversion.
-const textArray = (v: unknown) => sql`ARRAY(SELECT jsonb_array_elements_text(${json(v ?? [])}::text::jsonb))`
+// text[] from a JSON array, so Postgres does the array conversion. ORDER BY keeps
+// the manifest order, which a topic's package list depends on.
+const textArray = (v: unknown) =>
+  sql`ARRAY(SELECT e FROM jsonb_array_elements_text(${json(v ?? [])}::text::jsonb) WITH ORDINALITY AS a(e, i) ORDER BY i)`
 
 const eligibleOf = (pubId: Map<string, string>) => items.filter((i) => pubId.has(i.publisher?.slug))
 // metadata.source in the DB is the provenance tag ('registry' | 'crawler'); a
@@ -40,7 +47,7 @@ const syncedMetadata = (m: Record<string, any> = {}) => ({
   source: 'registry',
 })
 
-const { rows, stale } = await sql.begin(async (tx) => {
+const { rows, stale, removedTopics, topicCount } = await sql.begin(async (tx) => {
   // 1. Upsert publishers.
   for (const p of pubMap.values()) {
     await tx`
@@ -88,9 +95,32 @@ const { rows, stale } = await sql.begin(async (tx) => {
   const published: { slug: string }[] = await tx`SELECT slug FROM items WHERE status = 'published'`
   const stale = published.filter((p) => !currentSlugs.has(p.slug) && !PRESERVE.has(p.slug)).map((p) => p.slug)
   for (const slug of stale) await tx`UPDATE items SET status = 'rejected' WHERE slug = ${slug}`
-  return { rows: eligible, stale }
+
+  // 5. Topics mirror topic/ exactly: upsert every file, delete rows with no file.
+  // Skipped until the store's migration has created the table, so a registry
+  // merge that lands first does not roll back the package sync above.
+  const [{ hasTopics }]: { hasTopics: boolean }[] = await tx`SELECT to_regclass('topics') IS NOT NULL AS "hasTopics"`
+  if (!hasTopics) {
+    console.warn('topics table not found; skipping topic sync')
+    return { rows: eligible, stale, removedTopics: [] as string[], topicCount: 0 }
+  }
+  for (const t of topics) {
+    await tx`
+      INSERT INTO topics (slug, title, description, intro, capabilities, packages, related)
+      VALUES (${t.slug}, ${t.title}, ${t.description}, ${t.intro},
+              ${textArray(t.capabilities)}, ${textArray(t.packages)}, ${textArray(t.related)})
+      ON CONFLICT (slug) DO UPDATE SET
+        title = EXCLUDED.title, description = EXCLUDED.description, intro = EXCLUDED.intro,
+        capabilities = EXCLUDED.capabilities, packages = EXCLUDED.packages, related = EXCLUDED.related`
+  }
+  const removedTopics: { slug: string }[] = await tx`
+    DELETE FROM topics
+    WHERE slug NOT IN (SELECT jsonb_array_elements_text(${json(topics.map((t) => t.slug))}::text::jsonb))
+    RETURNING slug`
+  return { rows: eligible, stale, removedTopics: removedTopics.map((r) => r.slug), topicCount: topics.length }
 })
 
 if (stale.length) console.log(`Unpublished ${stale.length} removed package(s): ${stale.join(', ')}`)
-console.log(`Synced ${pubMap.size} publishers, ${rows.length} items (published)`)
+if (removedTopics.length) console.log(`Deleted ${removedTopics.length} removed topic(s): ${removedTopics.join(', ')}`)
+console.log(`Synced ${pubMap.size} publishers, ${rows.length} items (published), ${topicCount} topics`)
 await sql.close()
