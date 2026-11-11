@@ -5,7 +5,7 @@ marketplace of **providers**, **skills**, and **MCP servers** for Claude Code,
 Codex, and other AI coding agents.
 
 Each package is a single JSON manifest. Anyone can contribute or update a package
-by opening a pull request. Merged manifests are synced to the store and go live.
+by opening a pull request. Merged manifests are synced to the store within 15 minutes and go live.
 
 ## Repository layout
 

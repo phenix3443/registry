@@ -1,6 +1,7 @@
 // Sync all merged manifests into the store DB as published items, and topic/ into
-// the topics table. Runs in CI on push to main (i.e. after a PR merges). Requires
-// DATABASE_URL (the store's Postgres).
+// the topics table. Runs every 15 minutes inside the home-lab cluster
+// (projects/agent-store/test/registry-sync.yaml in phenix3443/home-lab), because the
+// store's Postgres is not reachable from GitHub Actions. Requires DATABASE_URL.
 import { readdirSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { SQL } from 'bun'
