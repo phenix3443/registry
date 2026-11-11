@@ -1,6 +1,7 @@
 // Review changed package manifests for quality + safety with an LLM, write the
 // verdict into the store item's metadata.review, and quarantine high-risk ones.
-// Runs after sync (same-repo push → review model key + DATABASE_URL exist).
+// Not run automatically: the store's Postgres moved into the home-lab cluster and
+// GitHub Actions cannot reach it (phenix3443/registry#11).
 import { readFileSync, existsSync, appendFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
