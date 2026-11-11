@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/topic.schema.json",
+  "slug": "docs-and-knowledge",
+  "title": "文档与知识检索",
+  "description": "让 agent 查最新的库文档和产品文档，少写过时的 API。",
+  "intro": "这组 MCP 服务器让 agent 在回答前先查文档。Context7 为任意库拉取最新文档与代码示例，减少过时 API 造成的幻觉；Biel.ai 查询你自己已建索引的产品文档，回答附带出处；docs-mcp 是 Tandem 的远程文档服务，覆盖安装指南、SDK、工作流和 agent 配置。",
+  "capabilities": [
+    "为任意库拉取最新文档和代码示例",
+    "查询自己已建索引的产品文档，得到带出处的回答",
+    "查阅 Tandem 的文档、安装指南、SDK 和工作流"
+  ],
+  "packages": [
+    "context7",
+    "biel-ai",
+    "docs-mcp"
+  ],
+  "related": ["agent-workflow"]
+}

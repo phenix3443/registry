@@ -1,0 +1,17 @@
+{
+  "$schema": "../schema/topic.schema.json",
+  "slug": "browser-automation",
+  "title": "浏览器自动化与调试",
+  "description": "让 agent 打开真实网页：点击、填表、抓取，再用 DevTools 看网络请求和性能。",
+  "intro": "这组 MCP 服务器给 agent 一个能操作的浏览器。Playwright（微软出品）负责打开网页、点击、填表和抓取内容；Chrome DevTools（Chrome 团队出品）通过 Chrome DevTools 协议调试页面，查看网络请求和性能。两者都通过 npx 在本地启动。",
+  "capabilities": [
+    "打开网页、点击、填写表单、抓取页面内容",
+    "通过 Chrome DevTools 协议调试页面",
+    "查看页面的网络请求和性能"
+  ],
+  "packages": [
+    "playwright-mcp",
+    "chrome-devtools"
+  ],
+  "related": ["coding-practices"]
+}
