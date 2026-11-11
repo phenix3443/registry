@@ -1,0 +1,24 @@
+{
+  "$schema": "../schema/topic.schema.json",
+  "slug": "agent-workflow",
+  "title": "Agent 工作流",
+  "description": "让 agent 先想清楚再动手：头脑风暴、按计划执行、并行分派、分步推理和跨会话记忆。",
+  "intro": "这组包管的是 agent 怎么干活，而不是干什么活。brainstorming 要求在写功能、改行为之前先弄清意图、需求和设计；executing-plans 按写好的实施计划分段执行并设置检查点；dispatching-parallel-agents 用在两个以上互不依赖的任务上；Sequential Thinking 把复杂问题拆成可修正的思考步骤；Knowledge Graph Memory 用知识图谱让 agent 跨会话记住实体与关系；agent-introspection-debugging 在 agent 自己出错时按记录、诊断、受控恢复、出报告的流程排查。",
+  "capabilities": [
+    "在动手实现之前先梳理用户意图、需求和设计",
+    "在单独的会话里按书面计划执行，并在检查点停下来复核",
+    "把互不依赖、不共享状态的任务分派给多个 agent 并行处理",
+    "把复杂问题拆成可修正的分步思考",
+    "用知识图谱跨会话记住实体和它们之间的关系",
+    "agent 自身出错时，按记录、诊断、受控恢复的流程排查并写出复盘报告"
+  ],
+  "packages": [
+    "superpowers-brainstorming",
+    "superpowers-executing-plans",
+    "superpowers-dispatching-parallel-agents",
+    "sequential-thinking",
+    "memory",
+    "ecc-agent-introspection-debugging"
+  ],
+  "related": ["coding-practices", "docs-and-knowledge"]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "../schema/topic.schema.json",
+  "slug": "coding-practices",
+  "title": "编码规范与 API 设计",
+  "description": "约束 agent 写代码的方式：少过度设计、只做必要改动，按生产级规范设计 REST API。",
+  "intro": "这组技能在 agent 写代码、审代码时提供规范。karpathy-guidelines 是一套减少 LLM 常见编码错误的行为准则，要求避免过度复杂、只做有针对性的改动、把假设说出来、定义可验证的完成标准；api-design 覆盖 REST API 的资源命名、状态码、分页、过滤、错误响应、版本和限流。",
+  "capabilities": [
+    "写代码、审代码、重构时避免过度复杂，只做有针对性的改动",
+    "先说明假设，并定义可验证的完成标准",
+    "按资源命名、状态码、分页、过滤、错误响应、版本、限流的规范设计 REST API"
+  ],
+  "packages": [
+    "andrej-karpathy-skills-karpathy-guidelines",
+    "ecc-api-design"
+  ],
+  "related": ["agent-workflow", "browser-automation"]
+}

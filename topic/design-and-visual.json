@@ -1,0 +1,17 @@
+{
+  "$schema": "../schema/topic.schema.json",
+  "slug": "design-and-visual",
+  "title": "设计与视觉",
+  "description": "用代码生成视觉作品：海报和静态设计、p5.js 生成艺术、套用品牌配色与字体。",
+  "intro": "这组技能让 agent 产出看得见的东西。canvas-design 依据一套设计理念生成 .png 和 .pdf 的海报、艺术作品等静态设计；algorithmic-art 用 p5.js 写带随机种子、可交互调参的生成艺术，例如流场和粒子系统；brand-guidelines 把 Anthropic 官方的品牌色和字体套用到各类产出物上。前两个都要求做原创作品，不复制现有艺术家的作品。",
+  "capabilities": [
+    "生成海报、艺术作品等静态设计，输出 .png 或 .pdf",
+    "用 p5.js 写带随机种子、可交互调参的生成艺术，如流场、粒子系统",
+    "按 Anthropic 官方品牌色和字体规范给产出物定样式"
+  ],
+  "packages": [
+    "skills-canvas-design",
+    "skills-algorithmic-art",
+    "skills-brand-guidelines"
+  ]
+}
