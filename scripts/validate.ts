@@ -1,8 +1,10 @@
-// Validate every package manifest under mcp/ skill/ provider/. Run in CI on PRs.
+// Validate every package manifest under mcp/ skill/ provider/, and every topic
+// under topic/. Run in CI on PRs.
 //   bun scripts/validate.ts            (also checks that file-step URLs resolve)
 //   CHECK_URLS=0 bun scripts/validate.ts   (skip network reachability)
 import { readdirSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
+import { readTopicFiles, validateTopics } from './topics'
 
 const ROOT = join(import.meta.dir, '..')
 const CATEGORIES = ['mcp', 'skill', 'provider'] as const
@@ -101,22 +103,27 @@ async function validateFile(category: string, filename: string): Promise<void> {
 }
 
 let count = 0
+const packageSlugs = new Set<string>()
 for (const cat of CATEGORIES) {
   const dir = join(ROOT, cat)
   if (!existsSync(dir)) continue
   for (const f of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
     count++
+    packageSlugs.add(f.replace(/\.json$/, ''))
     await validateFile(cat, f)
   }
 }
+
+const topicFiles = readTopicFiles(ROOT)
+errors.push(...validateTopics(topicFiles, packageSlugs))
 
 if (warnings.length) {
   console.log('Warnings:')
   warnings.forEach((w) => console.log('  ⚠ ' + w))
 }
 if (errors.length) {
-  console.error(`\n${errors.length} error(s) in ${count} manifests:`)
+  console.error(`\n${errors.length} error(s) in ${count} manifests and ${topicFiles.length} topics:`)
   errors.forEach((e) => console.error('  ✗ ' + e))
   process.exit(1)
 }
-console.log(`✓ All ${count} manifests valid`)
+console.log(`✓ All ${count} manifests and ${topicFiles.length} topics valid`)

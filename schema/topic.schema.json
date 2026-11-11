@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Agent Store topic",
+  "description": "One file per topic under topic/. The filename must be <slug>.json. A topic groups packages by the kind of work they help with.",
+  "type": "object",
+  "required": ["slug", "title", "description", "intro", "capabilities", "packages"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "slug": { "type": "string", "pattern": "^[a-z0-9-]+$", "maxLength": 60 },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1, "description": "One sentence, shown on the topic card." },
+    "intro": { "type": "string", "minLength": 1, "description": "One paragraph, shown at the top of the topic page." },
+    "capabilities": {
+      "type": "array",
+      "description": "What an agent can do with these packages installed.",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "packages": {
+      "type": "array",
+      "description": "Package slugs from mcp/, skill/ or provider/, in display order.",
+      "items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+      "minItems": 2,
+      "uniqueItems": true
+    },
+    "related": {
+      "type": "array",
+      "description": "Slugs of other topics.",
+      "items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+      "uniqueItems": true
+    }
+  }
+}
