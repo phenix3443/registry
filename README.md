@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **This repository is archived and no longer maintained.** Agent Store no longer keeps hand-written manifests. Its catalog is now aggregated from upstream sources — the [official MCP Registry](https://registry.modelcontextprotocol.io) for MCP servers and public GitHub repositories containing `SKILL.md` for skills — by the `catalog-sync` workflow in [phenix3443/agent-store](https://github.com/phenix3443/agent-store). To list an MCP server, publish it to the official MCP Registry. See [agent-store#101](https://github.com/phenix3443/agent-store/issues/101).
+
 # Agent Store registry
 
 The package registry for [Agent Store](https://agent-store-alpha.vercel.app) — a
